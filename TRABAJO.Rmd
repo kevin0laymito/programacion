@@ -1,0 +1,528 @@
+---
+title: "PROGRA_TRABAJO"
+author: "LAYMITO"
+date: "9/7/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 6 Ejercicios 
+
+### 6.1 Parte 1
+
+
+### 1. Calcular los valores nuemricos 
+
+A.  
+
+```{r }
+
+a <- (0.3*0.15)/((0.3*0.15)+(0.2*0.8)+(0.5*0.12))
+a
+
+```
+
+B.
+
+```{r }
+
+b <- ((5^6)/factorial(4))*exp(-5)
+  b
+```  
+  
+C.
+
+```{r }
+m <- matrix(c(20,7)) 
+c <- m*((0.4)^7)*((0.6)^13)
+c
+``` 
+### 2. Realizar la siguiente suma 
+
+A. 
+```{r }
+a <- sum(1:1000)
+a
+```
+
+B. 
+```{r }
+x <- 0:10
+b <- sum(2^x)
+b
+```
+### 3. El vector "grupo" representa una serie de alumnos
+
+A. Cuantos elementos tiene?
+
+```{r }
+load("C:/Users/KEVIN/Downloads/datos.RData")
+alum <- grupo
+alum
+```
+ El vector "grupo" tiene:
+```{r }
+a <- length(alum)
+a
+```
+
+B. En que posicion del vector esta la letra "A"
+```{r }
+alum_A <- data.frame( ord = 1:192, alum)
+head(alum_A)
+```
+La letra "A" esta en la position : 
+```{r }
+b <- alum_A[alum_A$alum == "A",]
+b
+```
+
+
+### 4. El vector "nota" representa la nota de un examen de alumnos del vector "grupo"
+
+
+A. Cuanto suma todas las notas?
+```{r }
+not <- nota
+a <- sum(not)
+a
+```
+B. Cual es la media aritmética de todas las notas?
+```{r }
+b <- mean(not)
+b
+```
+C. ¿En qué posiciones están las notas mayores de 7.0?
+
+La posicion de las notas mayores a 7 son :
+```{r }
+length(not)
+
+c <- data.frame( orden = 1:192, not)
+nota7 <- c[c$not > 7,]
+nota7
+```
+
+D. Visualiza las notas ordenadas de mayor a menor
+```{r }
+sort(not)
+```
+
+E. En qué posición está la nota máxima?
+
+```{r }
+e <- c[c$not == max(not),]
+e
+
+```
+
+### 5. A partir de los vectores "grupo" y "nota" definidos.
+
+A. Suma las notas de los 10 primeros alumnos del vector
+```{r }
+grupo 
+nota
+dt05 <- data.frame(orden = 1:192 ,grupo , nota  )
+head(dt05)
+
+```
+la suma de los 10 primeros es:
+```{r }
+a <- subset(dt05 , orden <=10)
+sum(a$nota)
+```
+B.Cuántos alumnos hay del grupo C?
+
+```{r }
+b <- subset(dt05 , grupo == "C")
+n_c <- nrow(b)
+n_c
+```
+C. Cuántos alumnos han aprobado?
+```{r }
+
+c <- subset(dt05 , nota >=5 )
+n_5 <- nrow(c)
+n_5
+```
+
+D. Cuántos alumnos del grupo B han aprobado?
+```{r }
+d <- subset(dt05, grupo == "B" & nota >=5)
+n_b <- nrow(d)
+n_b
+```
+E. Qué porcentaje de alumnos del grupo C han aprobado? 
+```{r }
+e <- subset(dt05, grupo =="C" )
+porcen_c <- (n_c/length(grupo))*100
+porcen_c
+
+```
+F. ¿De qué grupos son la máxima y mínima notas de toda la muestra?
+```{r }
+
+f <- subset(dt05 , nota == max(nota) | nota == min(nota))
+f
+```
+G. Nota media de los alumnos de grupo A y B, juntos, considerando sólo a los que han aprobado
+```{r }
+
+g <- subset(dt05 , grupo =="A" | grupo == "B")
+media_AB <- mean(g$nota)
+media_AB
+```
+
+### 6. Calcula el percentil 66 de las notas de todos los alumnos, y también de los alumnos del grupo C.
+Percentil de todos los alumnos 
+```{r }
+perce_66 <- quantile(sort(nota), c(.66))
+perce_66
+```
+Percentil de los alumnos  C 
+
+```{r }
+perce_66_c <- quantile(sort(e$nota) , c(.66))
+perce_66_c
+```
+### 7. Un alumno tiene una nota de 4.9. ¿Qué porcentaje, del total de alumnos, tiene una nota menor o igual que la suya? ¿Y qué porcentaje tiene una nota mayor o igual que la suya?
+Porcentaje de alumnos con nota mayor a 4.9
+```{r }
+nota_4.9 <- subset(dt05 , nota == "4.9")
+nrow(nota_4.9)
+
+nota_mayor_4.9 <- subset(dt05 , nota >= "4.9")
+pmayor4.9 <- (nrow(nota_mayor_4.9)/192)*100
+pmayor4.9
+```
+Porcentaje de alumnos con nota menor a 4.9
+```{r }
+nota_menor_4.9 <- subset(dt05 , nota <= "4.9")
+pmenor4.9 <- (nrow(nota_menor_4.9)/192)*100
+pmenor4.9
+
+```
+### 8. Realiza el gráfico de diagramas de caja de las notas de cada grupo, para poder comparar el nivel de cada uno de ellos.
+
+```{r }
+boxplot(dt05$nota ~ dt05$grupo , xlab = "grupo" , ylab = "nota")
+
+```
+
+### 9. Si la variable conc recoge la concentración de plomo (en ppm) en el aire de cierta zona durante un día completo
+
+A. ¿Cuál ha sido la concentración máxima?
+La concentracion de plomo maximo es:
+```{r }
+plomo <- conc
+
+plomo_maxima <- max(plomo)
+plomo_maxima
+```
+B. ¿En cuántos de los muestreos se ha superado la concentración de 40.0 ppm?
+La muestras que superna 40ppm
+```{r }
+plomo_40 <- (plomo>40) 
+sum(plomo_40)
+
+```
+C. ¿Cuál ha sido la concentración media del día?
+
+```{r }
+
+c_media <- mean(plomo)
+c_media
+```
+D. Cuáles fueron las 10 mediciones más bajas del día?
+
+```{r }
+
+p <- sort(plomo)
+p[1:10]
+```
+E. Si la primera medida fue a las 00:00. ¿A qué hora del día se alcanzó la concentración máxima?
+
+la concetracion maxima se da en :
+```{r }
+ 
+hora <- seq(as.POSIXct( "2019-02-03  00:00:00" ),
+         as.POSIXct( "2019-02-03  23:55:00" ) , 
+         by = 300 )
+plomo_hora <- data.frame(hora, p) 
+(subset(plomo_hora , p == plomo_maxima))
+
+```
+
+
+## 6.2 Parte 2
+
+## 1.  Graficar los puntos
+```{r }
+x <- 1:10
+x
+y <- (x)^2 
+  y[3] = 6 
+  y[4] = 8
+y
+plano <- data.frame(x,y)
+plot(x = plano$x , y = plano$y , xlab = "X" , ylab = "y")
+
+
+```
+
+
+## 2. Ingresar la matriz A en RStudio A 
+```{r }
+A <- c(1:4 , 2*(1:4), 3*(1:4) )
+matriz_A <- matrix(A ,nrow = 4 , ncol = 3)
+matriz_A 
+```
+## 3.Ingresar la matriz identidad de tamaño 3 I
+```{r }
+I <- matrix(0 ,nrow = 3 , ncol = 3)
+diag(3)
+
+```
+## 4. Crea una función que cree una matriz nula ingresando las dimensiones
+```{r }
+nula <- function(x,y){
+  return(matrix(0, nrow = x , ncol = y))
+}
+
+nula(5,8)
+```
+## 5. Modificar la matriz diag(4), para que se parezca a la matriz B
+```{r }
+b <- matrix(0, nrow = 4 ,ncol = 4)
+b <- diag(c(0,2,3,4))
+b
+
+```
+## 6. Obtener la matriz transpuesta de A 
+
+```{r }
+matriz_At <- t(matriz_A)
+matriz_At
+```
+
+## 7. Realizar las siguientes operaciones  
+
+A +B 
+
+```{r }
+"A_B <- (matriz_A + b)"
+"Error in matriz_A * b : arreglos de dimensón no compatibles"
+```
+A-B 
+```{r }
+"AB <- (matriz_A - b)"
+"Error in matriz_A * b : arreglos de dimensón no compatibles"
+```
+3B
+```{r }
+B_3 <- 3*b
+B_3
+```
+A*B 
+```{r }
+"BA <- matriz_A %*% b"
+"Error in matriz_A * b : arreglos de dimensón no compatibles"
+```
+
+## 8. Crea una función para calcular  P^6
+```{r }
+p <- matrix(c(1,-2,1,2,4,0,3,-2,1), nrow = 3 ,ncol = 3   )
+p_6 <- function(x){
+  return(p^x)
+}
+p_6(6)
+
+```
+
+## 9. resolver la ecuacion 
+```{r }
+library(matlib)
+library(tidyverse)
+i <- matrix(c("x","y","Z"))
+m <- matrix(c(3,9,3, -1, -2, 1,1,1,-2), nrow = 3, ncol = 3)
+r <- matrix(c(-1,-9,-9))
+incog <- inv(m)%*%r
+(cbind(i,incog))
+```
+### eigen()
+Calcula autovalores y autovectores de matrices numéricas (dobles, enteras, lógicas) o complejas.
+```{r }
+eigen(m)
+```
+### det()
+calcula el determinante (o su logaritmo) de una matriz
+```{r }
+det(m)
+```
+## 11. Considerando las matrices
+```{r }
+v <- 1:10
+B <- matrix(c(v,2*v,3*v,4*v,5*v), nrow = 10, ncol = 5)
+B
+A <- matrix(c(0,1,0,0,1,1,0,1,1,0,0,1,0,0,1,1,0,1,0,1,0,1,0,1,0), nrow = 5, ncol = 5)
+A
+
+"resul <- ((A%*%B) - (A%*%t(B)))"
+"A Y B NO COMPATIBLES "
+
+```
+
+## 12. Considere  ^β
+```{r }
+x <- matrix(c(1,1,1,1,1,1,-1,0,1,2), nrow = 5 , ncol = 2)
+x
+y <- matrix(c(0,0,1,1,3))
+y
+operacion <- ((t(x)%*%x)^(-1))%*%(t(x)%*%y)
+operacion
+```
+
+## 13.Corre el siguiente código para cargar los vectores "year" y "co2"
+
+```{r }
+
+data(co2)
+means = aggregate(co2, FUN=mean)
+year = as.vector(time(means))
+co2 = as.vector(means)
+
+
+```
+la diferencia de vector co2 es "d"
+```{r }
+library(dplyr)
+concen_co2 <- data.frame( año = year , ppm = round(co2,1) )
+(concen_co2 <- mutate(concen_co2, d = (concen_co2$ppm[2:39] - concen_co2$ppm[1:39])))
+
+
+plot(x = concen_co2$año[1:38] , y = concen_co2$d[1:38],  main = "CO2",  xlab = "año" , ylab = "diferencais de concetracion co2", font=4 )
+
+concen_co2
+```
+plot de la diferencia puntos 
+
+```{r }
+library(ggplot2) 
+library(dplyr)
+plot(x = concen_co2$año[1:38] , y = concen_co2$d[1:38],  main = "CO2",  xlab = "año" , ylab = "diferencais de concetracion co2", font=4 )
+
+
+
+```
+plot de la diferencia linea
+```{r }
+plot( x = concen_co2$año[1:38] , y = concen_co2$d[1:38], , main = "CO2",  xlab = "año" , ylab = "diferencais de concetracion co2" ,type = "b" , font=4 )
+```
+
+```{r }
+
+plot( x = concen_co2$año[1:38] , y = concen_co2$d[1:38], , main = "CO2",  xlab = "año" , ylab = "diferencais de concetracion co2", font=4 )
+
+
+
+
+
+```
+
+
+
+## 14. 
+
+```{r }
+
+library(readr)
+library(tidyverse)
+library(dplyr)
+
+(rainfall <- read_csv("rainfall.csv"))
+
+mayor180 <- dplyr::filter(rainfall,sep >= 180 | oct >=180  | nov>=180 | dec>=180 |jan>=180 | feb>=180 | mar>=180 | apr >=180 | may >=180)
+
+mayor180
+
+
+```
+
+### 6.3 parte 3
+```{r }
+read_csv("raingaugeDataset.csv")
+pp_diaria <- read_csv("raingaugeDataset.csv")
+
+lista <- read_csv("listRaingauge.csv")
+c_tabaconas <- dplyr::filter(lista , NOM_EST == "TABACONAS")
+
+
+
+
+```
+ EL CODIGO DE TABACONAS ES : qc00000240
+```{r }
+library(dplyr)
+dato_pp <- pp_diaria %>% select(date, qc00000240) %>% mutate(date = as.Date( date , format = "%d/%m/%Y")) %>% rename(pp = qc00000240) %>% arrange(date)
+
+
+seq(as.Date("1980-01-01"), as.Date("2013-12-31"), by = "day") %>% length()
+tail(dato_pp)
+```
+precipitacion mensual 
+```{r }
+
+library(dplyr)
+library(tidyverse)
+pp_mensual <- dato_pp %>% group_by(date = str_sub(date,1,7)) %>%
+  mutate(missival = sum(is.na(pp)) * 100 /n() ) %>% summarize( pp = sum(pp, na.rm =T ), missival = unique(missival))
+
+pp_mensua_ano <- pp_mensual %>% mutate(pp = ifelse(missival >= 10, NA , pp))
+
+
+
+```
+A. missing values :
+
+```{r }
+ sum(is.na(pp_mensual$pp))
+
+```
+B. MISSING VALUES >10% 
+```{r }
+pp_mensual
+
+```
+C. MISSING VALUES MENSUAL
+
+```{r }
+sum(is.na(pp_mensua_ano$pp))
+
+
+```
+
+D. FUNCION PARA CALCULAR DATOS DE PRECIPITACION MENSUAL 
+
+```{r }
+
+ 
+
+```
+
+E. 
+```{r }
+library(dplyr)
+p_1980_2013 <- dplyr::filter(pp_mensual, date >="1980-01" & date <= "2013-12")%>% mutate(mes = str_sub(date,6,7))
+
+library(ggplot2)
+ggplot(p_1980_2013, aes(mes ,pp)) + geom_boxplot() + scale_x_discrete(label = month.abb)
+
+
+
+```
+
+
+
