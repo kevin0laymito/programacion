@@ -1,0 +1,148 @@
+---
+title: "parcial_24"
+author: "LAYMITO"
+date: "24/7/2021"
+output: html_document
+---
+
+#Parcial_practica 
+
+## parte 01
+
+###pregunta 1
+
+```{r }
+
+alt <- function(x){
+ if (x>= 1000 & x<= 3000){
+ v <- 85.4 -( 2*(x/500))
+ 
+ }
+  
+if (x>= 3000 & x<= 4000){
+  v <- 85.4 - (0.5*(x/500))
+}
+if (x>4000){
+   v <- 85.4
+}
+  return(v)
+}
+alt(2500)
+
+
+
+
+
+
+```
+
+## pregunta 2
+
+
+```{r}
+library(matlib)
+i <- matrix(c("x","y","Z"))
+m <- matrix(c(3,2,1, 2, -1, 4,-2,3,2), nrow = 3, ncol = 3)
+r <- matrix(c(0,9,-4))
+incog <- inv(m)%*%r
+(cbind(i,incog))
+```
+
+## parte 2
+
+
+
+
+```{r }
+
+library(tidyverse)
+library(readr)
+library(dplyr)
+
+clima_uh <- read_csv("C:/Users/KEVIN/Downloads/mods_clima_uh.csv")
+
+cuenc <- dplyr::filter(clima_uh, uh_name == "Cuenca Tumbes")
+view(cuenc)
+
+```
+
+### a
+```{r }
+cuenc %>% dplyr::filter( , bh_esc == "Observado") %>% summarise(sum(bh_pc))
+
+
+```
+###b
+
+
+```{r }
+cuenc %>% arrange(,bh_esc,bh_month ) %>%view()
+
+
+
+
+```
+### c
+
+```{r }
+
+
+```
+
+
+### d 
+
+
+```{r }
+library(ggplot2)
+cuenc
+ggplot(data = cuenc) +
+  geom_point(mapping = aes(x = bh_month, y = bh_pc)) +
+  facet_wrap(~ bh_esc, nrow = 2)
+```
+
+### parte 3
+
+```{r }
+library(readr)
+
+
+tempera <- read_csv("C:/Users/KEVIN/Downloads/temperatureDataset.csv") 
+tempera_837 <- select(tempera, DATE,  qc00000837 )
+
+tempera_837$qc00000837[tempera_837$qc00000837==-99.9] <- NA
+
+
+```
+
+
+
+
+### A 
+```{r }
+
+
+a <- tempera_837 %>% mutate(date = as.Date( DATE , format = "%d/%m/%Y")) %>% rename(pp = qc00000837) 
+a %>% dplyr::filter(, date >= "1983-09-01" & date <= "1984-08-31" ) 
+a %>% dplyr::filter(, date >= "1997-09-01" & date <= "1998-08-31" )
+```
+
+## b
+
+```{r }
+dato_temper <- a %>% select(a, date) %>% 
+  mutate(date = as.Date( date , format = "%d/%m/%Y"))  %>%
+
+
+```
+
+
+
+
+
+
+```{r }
+temperat <- a %>% group_by(date = str_sub(date,1,7)) %>%
+  mutate(missival = sum(is.na(pp)) * 100 /n() ) %>% summarize( pp = sum(pp, na.rm =T ), missival = unique(missival))
+
+```
